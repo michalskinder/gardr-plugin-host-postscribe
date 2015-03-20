@@ -16,6 +16,19 @@ var itemStorage = {
 
 var replaceWithPostscribe = function(item, html) {
     if(typeof global.postscribe === 'function') {
+
+        if(typeof window.adtech !== 'undefined' && typeof window.burtApi !== 'undefined') {
+
+            var campaignId = (window.adtech.flightId || '') + '_' + (window.adtech.bannerId || '');
+            var burtUnit = window.burtApi.trackByNode(item.iframe, {
+                name : item.options.params.name
+            });
+            burtUnit.connect('burt.campaign', 'campaign-id', campaignId);
+            burtUnit.connect('burt.campaign', 'creative-id', campaignId);
+            burtUnit.connect('sch_no.placement', 'placement-id', (window.adtech.placementId || ''));
+
+        }
+
         item.iframe.remove();
         item.options.container.innerHTML = '';
         global.postscribe(item.options.container, html ? html : '<script src="' + item.options.url + '"></script>', item.options.postscribeOptions);
