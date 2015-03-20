@@ -21,7 +21,7 @@ var replaceWithPostscribe = function(item, html) {
 
             var campaignId = (window.adtech.flightId || '') + '_' + (window.adtech.bannerId || '');
             var burtUnit = window.burtApi.trackByNode(item.iframe, {
-                name : item.options.params.name
+                name : item.name
             });
             burtUnit.connect('burt.campaign', 'campaign-id', campaignId);
             burtUnit.connect('burt.campaign', 'creative-id', campaignId);
